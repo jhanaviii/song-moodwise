@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOOD-BASED SONG RECOMMENDATIONS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let cameraStarted = false;
+
+        $(document).ready(function () {
+            function getRecommendations(mood) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    data: { mood: mood },
+                    success: function (response) {
+                        var songs = response.songs;
+                        $('#recommendations').empty();
+                        if (songs.length > 0) {
+                            songs.forEach(function (song) {
+                                var songHTML = `<div class="song">
+                                                    <h3>${song.name}</h3>
+                                                    <p>${song.artist}</p>
+                                                </div>`;
+                                $('#recommendations').append(songHTML);
+                            });
+                        } else {
+                            $('#recommendations').append('<p>No songs found for this mood.</p>');
+                        }
+                    }
+                });
+            }
+
+            function updateMoodData() {
+                if (cameraStarted) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/current_mood',
+                        success: function (response) {
+                            if (response.mood) {
+                                getRecommendations(response.mood);
+                            }
+                        }
+                    });
+                }
+            }
+
+            $('#select-mood-form').on('submit', function (event) {
+                event.preventDefault();
+                var selectedMood = $('#mood').val();
+                if (selectedMood) {
+                    getRecommendations(selectedMood);
+                }
+            });
+
+            $('#stop_button').on('click', function () {
+                cameraStarted = false;
+                $('#video_feed').hide();
+                $('#start_button').show();
+                $('#stop_button').hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '/stop_camera',
+                    success: function () {
+                        console.log("Camera stopped");
+                    }
+                });
+            });
+
+            $('#start_button').on('click', function () {
+                cameraStarted = true;
+                $('#video_feed').show();
+                $('#start_button').hide();
+                $('#stop_button').show();
+                $.ajax({
+                    type: 'POST',
+                    url: '/start_camera',
+                    success: function () {
+                        console.log("Camera started");
+                    }
+                });
+            });
+
+            setInterval(updateMoodData, 2000); // Update mood data every 2 seconds
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>DISCOVER YOUR MOOD'S MUSIC</h1>
+        <div class="video-container">
+            <img id="video_feed" src="{{ url_for('video_feed') }}" data-mood="" style="display:none; width: 600px; height: 600px;" />
+            <button id="start_button">Detect Mood</button>
+            <button id="stop_button" style="display:none;">Select from below</button>
+        </div>
+        <form id="select-mood-form">
+            <label for="mood">Select a Mood:</label>
+            <select id="mood" name="mood">
+                <option value="">Choose</option>
+                <option value="Angry">Angry</option>
+                <option value="Disgust">Disgust</option>
+                <option value="Fear">Fear</option>
+                <option value="Happy">Happy</option>
+                <option value="Sad">Sad</option>
+                <option value="Surprise">Surprise</option>
+                <option value="Calm">Calm</option>
+            </select>
+            <button type="submit">Get Recommendations</button>
+        </form>
+        <div id="recommendations">
+            <!-- Recommendations will be displayed here dynamically -->
+        </div>
+    </div>
+</body>
+</html>

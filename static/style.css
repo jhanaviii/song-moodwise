@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('Background.jpeg');
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: box-shadow 0.3s;
+}
+
+.container:hover {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: darkblue;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    transition: color 0.3s;
+}
+
+h1:hover {
+    color: darkred;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+#video_feed {
+    width: 400px;
+    height: 350px;
+    display: block;
+    margin: 0 auto;
+    border: 3px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+#video_feed:hover {
+    transform: scale(1.05);
+    border-color: darkred;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:hover, select:focus {
+    border-color: darkblue;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: dodgerblue;
+    color: #fff;
+    border: dodgerblue;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+#recommendations {
+    margin-top: 30px;
+}
+
+.song {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: hotpink;
+    border: 5px solid #ccc;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.song:hover {
+    background-color: lightpink;
+    transform: scale(1.02);
+}
+
+.song h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.song h3:hover {
+    color: darkblue;
+}
+
+.song p {
+    margin: 5px 0;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.song p:hover {
+    color: darkblue;
+}
+
+#activate_button, #deactivate_button {
+    margin-top: 15px;
+    width: 200px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#activate_button:hover, #deactivate_button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
